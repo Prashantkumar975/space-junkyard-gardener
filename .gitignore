@@ -1,0 +1,4 @@
+.originkit/
+
+node_modules/
+.satcat.cache.json
