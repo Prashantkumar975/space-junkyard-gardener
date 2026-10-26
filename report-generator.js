@@ -6,7 +6,21 @@
 // plain-language summary so the app stays usable — worded honestly for
 // whichever data source is active (real CelesTrak catalogue or sample).
 
+let hostedDeployment = false;
+
+export function configureReportSource(config = {}) {
+  hostedDeployment = config.deployment === 'vercel';
+}
+
 export async function generateReport({ counts, pattern, gardenDate, isSample }) {
+  if (hostedDeployment) {
+    return {
+      report: fallbackReport(counts, pattern, true),
+      source: 'Sample summary · hosted mode',
+      origin: 'sample',
+      model: null
+    };
+  }
   try {
     const response = await fetch('/api/report', {
       method: 'POST',

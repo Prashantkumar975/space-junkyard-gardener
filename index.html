@@ -252,8 +252,8 @@
     <h2>Space is busy.<br><em>We made it a little softer.</em></h2>
     <p class="dialog-trust">This illustrative view is not a precise orbit simulator or collision warning system.</p>
     <p id="aboutDataNote">The app runs on a small, fixed sample of familiar satellite and debris names held in <code>sample-data.js</code>. Marker positions, altitudes and counts are decorative: real orbital data changes constantly, and this view never calculates trajectories, proximity or collision risk. No collision predictions or risk scores are shown anywhere.</p>
-    <p>Reports are written by an open-weight model running locally through Ollama. Sample and user data never leave your machine — no hosted model API or API key is involved. If the model is unavailable, a clearly labelled sample report keeps the garden in bloom.</p>
-    <div class="dialog-model">LOCAL MODEL <code id="modelConfig">llama3.2:3b</code> <span>set with OLLAMA_MODEL</span></div>
+    <p id="aboutReportNote">When run locally, reports can be written by an open-weight model through Ollama. If the local model is unavailable, a clearly labelled sample report keeps the garden in bloom.</p>
+    <div class="dialog-model"><span id="modelTitle">LOCAL MODEL</span> <code id="modelConfig">llama3.2:3b</code> <span id="modelHint">set with OLLAMA_MODEL</span></div>
   </dialog>
 
   <!-- No bundler and no framework runtime: plain ES modules only. -->

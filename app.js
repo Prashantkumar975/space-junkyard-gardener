@@ -6,7 +6,7 @@
 // decorative geometry you can spin around Earth.
 
 import { loadOrbitalData, configureDataSource, sceneRings, ringPoint } from './data-loader.js';
-import { generateReport } from './report-generator.js';
+import { generateReport, configureReportSource } from './report-generator.js';
 import { createEarthScene } from './earth-scene.js';
 
 const $ = selector => document.querySelector(selector);
@@ -676,6 +676,11 @@ function applySourceLabels() {
   set('#aboutDataNote', real
     ? `Names, altitudes, inclinations, launch dates and statuses come from CelesTrak’s SATCAT — the public satellite catalogue — ${synced ? `synced ${synced} and ` : ''}cached on this machine for a day at a time. Marker positions, rings and the scene remain decorative: nothing here calculates trajectories, proximity or collision risk.`
     : 'The app runs on a small, fixed sample of familiar satellite and debris names held in sample-data.js. Marker positions, altitudes and counts are decorative: real orbital data changes constantly, and this view never calculates trajectories, proximity or collision risk. No collision predictions or risk scores are shown anywhere.');
+  if (state.config?.deployment === 'vercel') {
+    set('#aboutReportNote', 'The hosted site uses a plain-language sample summary. The local Ollama model is available only when you run the app on your own machine.');
+    set('#modelTitle', 'HOSTED MODE');
+    set('#modelHint', 'sample summary');
+  }
 }
 
 async function updateView() {
@@ -742,7 +747,8 @@ async function init() {
   const config = await fetch('/api/config').then(response => response.json()).catch(() => ({}));
   state.config = config;
   configureDataSource(config);
-  $('#modelConfig').textContent = config.model || 'llama3.2:3b';
+  configureReportSource(config);
+  $('#modelConfig').textContent = config.deployment === 'vercel' ? 'not connected' : (config.model || 'llama3.2:3b');
 
   await updateView();
 }

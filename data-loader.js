@@ -138,6 +138,15 @@ async function loadFromServer() {
 }
 
 export async function loadOrbitalData(date = new Date()) {
+  if (sourceConfig.deployment === 'vercel') {
+    return {
+      objects: decorate(sampleObjects, date),
+      date,
+      source: sampleMeta.label,
+      isSample: true,
+      meta: sampleMeta
+    };
+  }
   try {
     const payload = await loadFromServer();
     return {
